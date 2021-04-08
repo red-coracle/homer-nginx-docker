@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  homer:
+    image: ghcr.io/red-coracle/homer
+    restart: always
+    networks:
+      - traefik
+    volumes:
+      - ./assets:/usr/share/nginx/html/assets
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.homer.rule=Host(`homer.example.com`)'
+      - 'traefik.http.routers.homer.entrypoints=https'
+      - 'traefik.http.routers.homer.tls.certresolver=letsencrypt'
+
+networks:
+  traefik:
+    external: true
